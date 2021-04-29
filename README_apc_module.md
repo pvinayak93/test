@@ -1,4 +1,7 @@
-# ridership-data-warehouse
+# APC Module
+
+`apc_module` is a utility for working with APC datasets at SEPTA. The module  
+
 
 ### ControlScript.py
 
