@@ -15,7 +15,7 @@ The intent is to run each of these functions sequentially, after the `gtfs_modul
 
 The end product of this process are ridership datasets (**derived datasets**) that can be queried to obtain ridership by route, block id, direction, stop, time of day and day of week for a specific month/signup. Currently, the processing is done at the sign-up level i.e. there is one **derived dataset** file per sign-up.  
 
- As of 4/30/2021, all these functions are configured to work with parameters defined in the `RunParameters.py` - parameters include input/output folder paths, lookups, and definitions used in imputation algorithms. The module also references auxiliary functions that can be found in scripts prefixed with *auxFuncs*.         
+ As of 4/30/2021, all these functions are configured to work with parameters defined in the `run_parameters.py` - parameters include input/output folder paths, lookups, and definitions used in imputation algorithms. The module also references auxiliary functions that can be found in python files prefixed with *auxFuncs*.         
 
 ## Overall Process
 
@@ -25,19 +25,40 @@ The flowchart shows sequence of steps involved in generating **derived datasets*
 * **Expansion** block is contained in the *expansion_apc_tc* function
 * **Derived Dataset** and **Gap Filling** blocks are contained in the *generate_derived_dataset* function
 
-**Diagnostic summaries** can be generated for several functions. These serve as breakpoints in the data flow and allow the users to review high level statistics to flag and troubleshoot data issues at the source. All along the process flow intermediate files are generated (saved as highly efficient [parquet](https://fastparquet.readthedocs.io/en/latest/) files) that can be forked to support other analysis. 
+**Diagnostic summaries** can be generated for several functions. These serve as breakpoints in the data flow and allow the users to review high level statistics to flag and troubleshoot data issues at the source. 
+
+All along the process flow intermediate files are generated (saved as highly efficient [parquet](https://fastparquet.readthedocs.io/en/latest/) files) that can be forked to support other analysis. As a result, the process generates the folder structure described in the [Folders and Files](##Folders-and-Files).  
 
 
 ![FlowChart](https://github.com/septadev/ridership-data-warehouse/blob/3d44294f46f646b2792fc5779f1a6ef85fb0e698/reference_files/documentation/FlowChart_sprint1.jpg) 
 
 
+## Function Descriptions
 
 
+### process_apc_infodev
 
+This function operates on the stop level data files from Infodev vendor, pulled using the FTP site. These files follow the nomenclature *Stop-by-Stop.csv* and there exists one file per signup. Data dictionary for the available columns is housed [here](#addlink). The function implements the following operations: 
 
-   
+* Map APC route IDs to GTFS route IDs using the `MasterRouteList_v3_withGTFS` lookup table maintained by SEPTA
+* Merge the APC dataset with `GTFS trip roster`, which generates the list of scheduled trips for every day of the year using the latest applicable GTFS release (see [gtfs_module]() for more details.) This match is based on the following columns : `date, route_id, block_id, direction, and scheduled_start_time`.
+* Generate diagnostic summaries
 
+```python
+from apc_module.process_apc_infodev import process_apc_infodev
 
+# Paths to data and output folder are specified in run_parameters.py
+# Signup specified as a string "signupname_year", where 
+# SEPTA defined signup name (e.g. spring, summer) and year as YYYY.  
+signup = 'fall_2018'
+process_apc_infodev(signup, diagnostics = True)
+
+```
+### process_apc_uta
+
+**Infodev APC** data structure is assumed to supersede the **UTA APC** data structure, and hence the latter is 
+
+## Folders and Files
 
 
 
