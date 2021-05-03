@@ -6,33 +6,36 @@ The `apc_module` is built using two main Python packages `pandas` and `gtfs-kit`
 
 There are four main functions included in the module - 
 
-* [processInfodev](###processInfodev)
-* [processUTA](###processUTA)
-* [expansionAllAPC](###expansionAllAPC)
-* [generateDerivedDataset](###generateDerivedDataset)
+* [process_apc_infodev](###process_apc_infodev)
+* [process_apc_uta](###process_apc_uta)
+* [expansion_apc_tc](###expansion_apc_tc)
+* [generate_derived_dataset](###generate_derived_dataset)
 
 The intent is to run each of these functions sequentially, after the `gtfs_module` (more information here) and `traffic_check` modules (more information here). **APC** and **traffic check** datasets provide measures of ridership on the sampled trips, which is a subset of the total scheduled trips. The universe of scheduled trips are sourced from the [GTFS rosters](###).  
 
-The end product of this process are ridership datasets (termed **derived datasets**) that can be queried to obtain ridership by route, block id, direction, stop, time of day and day of week for a specific month/signup. Currently, the processing is done at the sign-up level i.e. there is one derived dataset file per sign-up.  
+The end product of this process are ridership datasets (**derived datasets**) that can be queried to obtain ridership by route, block id, direction, stop, time of day and day of week for a specific month/signup. Currently, the processing is done at the sign-up level i.e. there is one **derived dataset** file per sign-up.  
 
- As of 4/30/2021, all these functions are configured to work with parameters defined in the `RunParameters.py`. The module also references auxiliary functions in scripts prefixed with "auxFuncs".         
+ As of 4/30/2021, all these functions are configured to work with parameters defined in the `RunParameters.py` - parameters include input/output folder paths, lookups, and definitions used in imputation algorithms. The module also references auxiliary functions that can be found in scripts prefixed with *auxFuncs*.         
 
 ## Overall Process
 
-The flowchart shows sequence of steps involved in generating **derived datasets** and linkages between the `apc_module`, `traffic_check_module`, and `gtfs_module`. 
+The flowchart shows sequence of steps involved in generating **derived datasets** and linkages between the `apc_module`, `traffic_check_module`, and `gtfs_module`. The flow controlled within the `apc_module` is shown within the gray box.
 
-**Diagnostic summaries** can be generated for several functions. These serve as breakpoints in the data flow and allow the users to review high level statistics to flag and troubleshoot data issues at the source. All along the process flow intermediate files are generated (saved as highly efficient [parquet](https://fastparquet.readthedocs.io/en/latest/) files) that can be forked to support other analysis.  
+* **APC Processing** block comprises of the *process_apc_infodev* and *process_apc_uta* functions
+* **Expansion** block is contained in the *expansion_apc_tc* function
+* **Derived Dataset** and **Gap Filling** blocks are contained in the *generate_derived_dataset* function
 
-![FlowChart](https://github.com/septadev/ridership-data-warehouse/blob/73b882512eefb20c0322c1466f7df2a49618072e/reference_files/documentation/FlowChart_sprint1.jpg) 
-
-
-
-
+**Diagnostic summaries** can be generated for several functions. These serve as breakpoints in the data flow and allow the users to review high level statistics to flag and troubleshoot data issues at the source. All along the process flow intermediate files are generated (saved as highly efficient [parquet](https://fastparquet.readthedocs.io/en/latest/) files) that can be forked to support other analysis. 
 
 
- ```python
-import 
- ```        
+![FlowChart](https://github.com/septadev/ridership-data-warehouse/blob/3d44294f46f646b2792fc5779f1a6ef85fb0e698/reference_files/documentation/FlowChart_sprint1.jpg) 
+
+
+
+
+
+
+   
 
 
 
