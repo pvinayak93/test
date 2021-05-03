@@ -23,7 +23,7 @@ The flowchart shows sequence of steps involved in generating **derived datasets*
 
 **Diagnostic summaries** can be generated for several functions. These serve as breakpoints in the data flow and allow the users to review high level statistics to flag and troubleshoot data issues at the source. All along the process flow intermediate files are generated (saved as highly efficient [parquet](https://fastparquet.readthedocs.io/en/latest/) files) that can be forked to support other analysis.  
 
-![FlowChart](https://github.com/septadev/ridership-data-warehouse/blob/73b882512eefb20c0322c1466f7df2a49618072e/reference_files/documentation/FlowChart_sprint1.jpg) 
+![FlowChart](https://github.com/septadev/ridership-data-warehouse/blob/3d44294f46f646b2792fc5779f1a6ef85fb0e698/reference_files/documentation/FlowChart_sprint1.jpg) 
 
 
 
